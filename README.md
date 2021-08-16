@@ -1,0 +1,3 @@
+API including a system that users can register and according to their role predefined by the admin in the database, they get added as Doctor, Nurse or Patient(others).
+Then the nurses can send Information and ECG data related to patient(not just the ones registered) for Doctors(They can choose which doctor or doctors).
+Then the doctors log into the website, see the latest data sent for them by the nurses and finally check the patients information and ECG file in order to prescribe some medicine or anything else needed.
