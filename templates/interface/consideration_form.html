@@ -1,0 +1,47 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}Consideration{% endblock %}
+
+
+{% block content %}
+{% include 'base/nav-main.html' %}
+<div class="container" style="width: 65%; outline: none; background: transparent;">
+    <div class="row">
+        <div class="col-12">
+            <div class="card text-center card-form" style="border: none; background: transparent;">
+                <div class="card-body">
+                    {% include 'registration/messages.html' %}
+                    <h3 style="color: var(--clr-grey-2); margin-bottom: 3rem;">Set your considerations for the patient please</h3>
+
+                    {% if form.errors %}
+                        <p>Please correct the following errors:</p>
+                            {% for field in form %}
+                                {% if field.errors %}
+                                <div class="alert alert-primary" role="alert">
+                                    {{ field.errors|striptags }}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                    {% endif %}
+
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="small font-weight-bold">{{ form.considerations.label }}
+                            </label>
+                            {{ form.considerations }}
+                        </div>
+
+                        <br>
+                        <input type="submit" value="Submit" class="btn btn-block mx-auto" style="width: 28%; background: rgba(38, 82, 102, 0.59);">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

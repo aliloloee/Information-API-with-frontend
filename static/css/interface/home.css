@@ -1,0 +1,10 @@
+.patient-link {
+    font-size: 1.35rem;
+}
+.patient-link > i {
+    transition: var(--transition);
+    color: var(--clr-navbar);
+}
+.patient-link:hover i{
+    color: var(--clr-grey-2);
+}

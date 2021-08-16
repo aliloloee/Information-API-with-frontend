@@ -1,0 +1,124 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load verbose_names %}
+
+{% block title %}{{ name|title }} ECG{% endblock %}
+
+
+{% block content %}
+{% include 'base/nav-main.html' %}
+
+<style>
+.channel {
+    height: 300px;
+    width: 100%;
+}
+</style>
+
+
+<div class="container" style="width: 100%; max-width: 1350px;">
+    <div class="row">
+
+        <div class="col-3">
+            <div class="container">
+                <table class="table table-hover" id="patient-information">
+                    {% for field, val in info %}
+                    <tr>
+                        <th style="font-size: 0.65rem;">{{ field }}</th>
+                        <td style="font-size: 0.65rem;">{{ val }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <th>{{ info|reveal:"created" }}</th>
+                        <td>{{ info.created|naturaltime }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-9">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="col channel" id="ch1"></div>
+                        <div class="col channel" id="ch2"></div>
+                        <div class="col channel" id="ch3"></div>
+                        <div class="col channel" id="ch4"></div>
+                    </div>
+                    <div class="col">
+                        <div class="col channel" id="ch5"></div>
+                        <div class="col channel" id="ch6"></div>
+                        <div class="col channel" id="ch7"></div>
+                        <div class="col channel" id="ch8"></div>
+                    </div>
+                    <div class="col">
+                        <div class="col channel" id="ch9"></div>
+                        <div class="col channel" id="ch10"></div>
+                        <div class="col channel" id="ch11"></div>
+                        <div class="col channel" id="ch12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js-files %}
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+<script>
+    const information = document.getElementById('patient-information');
+    const infoHeight = information.offsetHeight;
+</script>
+
+
+<script>
+    const ecg = {{data|safe}};
+    for (var k in ecg) {
+        if (ecg.hasOwnProperty(k)) {
+            showChannel(k, ecg[k])
+        }
+    }
+    function showChannel(chann_name, ecg_chann_data) {
+    
+    var limit = ecg_chann_data.length;
+    var data = [];
+    var dataSeries = { type: "line" };
+    var dataPoints = [];
+    for (var i = 0; i < limit; i += 1) {
+        dataPoints.push({
+            x: i,
+            y: ecg_chann_data[i]
+        });
+    }
+    dataSeries.dataPoints = dataPoints;
+    data.push(dataSeries);
+    
+    //Better to construct options first and then pass it as a parameter
+    var options = {
+        zoomEnabled: true,
+        animationEnabled: true,
+        title: {
+            text: `${chann_name}`
+        },
+        axisY: {
+            lineThickness: 1
+        },
+        data: data  // random data
+    };
+    
+    var chart = new CanvasJS.Chart(`${chann_name}`, options);
+    document.getElementById(`${chann_name}`).style.height = `${infoHeight/12}px`;
+    chart.render();
+    
+    }
+</script>
+
+
+
+
+
+{% endblock %}

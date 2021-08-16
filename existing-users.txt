@@ -1,0 +1,12 @@
+superuser -> username:5273573858 password:123456
+
+doctor_users -> username : 9596090811, 3615335198
+doctors_password -> password : doc123456
+
+# The authentication system only allows doctors to login (can easily change in accounts.views => removing user_type condition)
+
+nurse_users -> username : 6961632343, 7508180054
+nurses_password -> password : nurse123456
+
+patient_users -> username : 7766880067, 3189053014
+patients_password -> password : patient123456

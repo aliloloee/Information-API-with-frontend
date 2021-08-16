@@ -1,0 +1,48 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/interface/home.css' %}">
+{% endblock %}
+
+
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+{% include 'base/nav-main.html' %}
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Patient</th>
+                <th scope="col">Nurse</th>
+                <th scope="col">ECG at</th>
+                <th scope="col">ECG</th>
+                <th scope="col">Patient information</th>
+                <th scope="col">Considerations</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ecg, link_id in data %}
+            <tr>
+                <th><a href="{% url 'interface:patient_history' ecg.patient.pk %}">{{ ecg.patient.fullname }}</a></th>
+                <th><a href="{% url 'interface:nurse_history' ecg.nurse.pk %}">{{ ecg.nurse.fullname }}</a></th>
+                <th>{{ ecg.recorded_at|naturaltime }}</th>
+                <th><a class="patient-link" href="{{ ecg.get_absolute_url }}"><i class="fas fa-link"></i></a></th>
+                <th><a class="patient-link" href="{{ ecg.patient.get_absolute_url }}"><i class="fas fa-link"></i></a></th>
+                <th>
+                    <a class="patient-link" href="{% url 'interface:update_consideration' link_id %}">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

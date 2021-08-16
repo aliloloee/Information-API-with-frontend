@@ -1,0 +1,50 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/interface/home.css' %}">
+{% endblock %}
+
+
+{% block title %}{{ owner|title }}{% endblock %}
+
+
+{% block content %}
+{% include 'base/nav-main.html' %}
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nurse</th>
+                <th scope="col">Doctors</th>
+                <th scope="col">ECG at</th>
+                <th scope="col">ECG</th>
+                <th scope="col">Patient information</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ecg in ecgs %}
+            <tr>
+                <th>{{ ecg.nurse.fullname }}</th>
+                {% with ecg.doctors.all as doctors %}
+                <th>
+                <select>
+                    {% for doctor in doctors %}
+                        <option>{{ doctor.fullname }}</option>
+                    {% endfor %}
+                </select>
+                </th>
+                {% endwith %}
+                <th>{{ ecg.recorded_at|naturaltime }}</th>
+                <th><a class="patient-link" href="{{ ecg.get_absolute_url }}"><i class="fas fa-link"></i></a></th>
+                <th><a class="patient-link" href="{{ ecg.patient.get_absolute_url }}"><i class="fas fa-link"></i></a></th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

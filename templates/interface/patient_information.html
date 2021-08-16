@@ -1,0 +1,27 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load verbose_names %}
+{% block title %}{{ info.fullname|title }} Info{% endblock %}
+
+
+{% block content %}
+{% include 'base/nav-main.html' %}
+
+<div class="container">
+    <table class="table table-hover">
+        {% for field, val in info %}
+        <tr>
+            <th>{{ field }}</th>
+            <td>{{ val }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th>{{ info|reveal:"created" }}</th>
+            <td>{{ info.created|naturaltime }}</td>
+        </tr>
+    </table>
+</div>
+
+
+{% endblock %}

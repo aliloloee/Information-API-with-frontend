@@ -1,0 +1,7 @@
+class AsistDoctor(models.Model) :
+    owner = models.Foreignkey(User, ....)
+    assistants = models.Foreignkey(User, ....)
+    patient = models.Foreignkey(ECGInformation, ....)
+
+    is_answered = booleanfield
+    
